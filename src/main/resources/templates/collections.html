@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>VirtualMusicStore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Album Title</th>
+        <th scope="col">Album Picture</th>
+        <th scope="col">Artist Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Music</th>
+        <th scope="col">Buy</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="album : ${album}">
+        <td>
+            <span th:text="${album.title}"></span>
+        </td>
+        <td>
+            <div th:with="name=${album.picture.name}, format=${album.picture.format}">
+                <span th:text="${name}"></span>
+                <span th:text="${format}"></span>
+                <img th:src="@{${'/images/' + name + '.' + format}}" width="128" />
+
+            </div>
+        </td>
+        <td>
+            <span th:text="${album.artistName}"></span>
+        </td>
+        <td>
+            <span th:text="${album.desc}"></span>
+        </td>
+        <td>
+            <span>$<span th:text="${album.price}"></span></span>
+        </td>
+        <td>
+            <ul th:each="music : ${album.getMusic()}">
+                <li>
+                    <span><span th:text="${music.title}"></span></span>
+                </li>
+            </ul>
+        </td>
+
+        <td>
+            <button type="button" class="btn btn-primary">Get</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

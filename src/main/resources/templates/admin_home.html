@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html lang="" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>adminPage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div>
+        <a href="/home">Home</a>
+    </div>
+    <div th:align="center" class="col-md-12">
+       <h2>Album add page</h2>
+        <div class="col-md-6">
+            <form action="#" method="post" th:action="@{/admin/saveAlbum}" th:object="${albumDto}">
+                <div class="form-group" th:align="left">
+                    <label style="font-weight: bolder" for="title">Title:</label>
+                    <input type="text" class="form-control" id="title" th:field="*{title}" required>
+                    <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                </div>
+                <div class="form-group" th:align="left">
+                    <label style="font-weight: bolder" for="artistName">Artist Name:</label>
+                    <input type="text" class="form-control" id="artistName" th:field="*{artistName}" required>
+                    <p class="alert alert-danger" th:if="${#fields.hasErrors('artistName')}" th:errors="*{artistName}">
+                </div>
+                <div class="form-group" th:align="left">
+                    <label style="font-weight: bolder" for="desc">Description:</label>
+                    <input type="text" class="form-control" id="desc" th:field="*{desc}" required>
+                    <p class="alert alert-danger" th:if="${#fields.hasErrors('desc')}" th:errors="*{desc}">
+                </div>
+                <div class="form-group" th:align="left">
+                    <label style="font-weight: bolder" for="price">Price:</label>
+                    <input type="number" step="any" class="form-control" id="price" th:field="*{price}" required>
+                    <p class="alert alert-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">
+                </div>
+                <div class="form-group" th:align="left">
+                    <label style="font-weight: bolder" for="date">Release Date:</label>
+                    <input type="date" step="any" class="form-control" id="date" th:field="*{date}" required>
+                    <p class="alert alert-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">
+                </div>
+                <div class="form-group" th:align="left">
+                    <label style="font-weight: bolder" for="picture_name">Album Picture:</label>
+                    <input type="text" step="any" class="form-control" id="picture_name" th:field="*{picture.name}" required>
+                    <p class="alert alert-danger" th:if="${#fields.hasErrors('picture')}" th:errors="*{picture.name}">
+                </div>
+                <div class="form-group" th:align="left">
+                    <label style="font-weight: bolder" for="picture_format">Album Picture format:</label>
+                    <input type="text" step="any" class="form-control" id="picture_format" th:field="*{picture.format}" required>
+                    <p class="alert alert-danger" th:if="${#fields.hasErrors('picture')}" th:errors="*{picture.format}">
+                </div>
+
+                <div class="form-group" th:align="left">
+                    <div class="form-group">
+                        <label style="font-weight: bolder" for="music">Music</label>
+                        <button class="btn btn-info" th:align="right" th:nowrap="true" type="submit" name="addMusic" id="addMusic">Add</button>
+                    </div>
+                    <div th:if="*{music}">
+                        <table >
+                            <thead>
+                            <tr>
+                                <th>Index</th>
+                                <th>Name</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="music, stat: *{music}">
+                                <td th:text="${stat.count}">1</td>
+                                <td>
+                                    <input type="text" class="form-control" th:field="*{music[__${stat.index}__].title}">
+                                </td>
+                                <td><button class="btn btn-info" type="submit" name="removeMusic" id="removeMusic" th:value="${stat.index}">Remove</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>

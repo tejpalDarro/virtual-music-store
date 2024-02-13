@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -26,11 +27,16 @@ public class User {
     private  String password;
     @Column(name = "user_email")
     private String email;
-    @Column(name = "user_money", columnDefinition = "integer default 15")
-    private int money;
+    @Column(name = "user_money", columnDefinition = "integer default 30")
+    private double money = 30;
     @Column(name = "user_created")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate created;
-    @OneToMany
-    private List<Album> albums;
+    @ManyToMany
+    @JoinTable(
+            name = "user_album",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "album_id")
+    )
+    private Set<Album> albums;
 }

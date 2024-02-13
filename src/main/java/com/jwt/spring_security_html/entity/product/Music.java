@@ -1,5 +1,6 @@
 package com.jwt.spring_security_html.entity.product;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,11 @@ public class Music {
     public Music(String title, Album album) {
         this.title = title;
         this.album = album;
+    }
+
+    @JsonBackReference
+    public Album getAlbum() {
+        return album;
     }
 
     @Override

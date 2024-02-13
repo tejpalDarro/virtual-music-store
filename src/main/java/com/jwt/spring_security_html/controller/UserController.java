@@ -13,10 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/userCont")
+@RequestMapping("/user-cont")
 public class UserController {
 
     @Autowired
@@ -33,12 +35,38 @@ public class UserController {
         return "Hello world";
     }
 
+    @GetMapping("/getUser")
+    public List<UserDto> getUser() {
+        return userMapper.listOfUserToUserDto(userService.getAllUser());
+    }
+
+    @GetMapping("/getbyid/{id}")
+    public UserDto getUserById(@PathVariable(name = "id") int id) {
+        User user = userService.getUserById(id);
+        return userMapper.UserToUserDto(user);
+    }
+
+    @PostMapping("/get/{id}")
+    public UserDto updateAlbumToUser(@PathVariable(name = "id") int id) {
+
+        Album album = albumService.getAlbumById(id);
+        Album album1 = albumService.getAlbumById(id+1);
+        AlbumDto albumDto = albumMapper.mapAlbumToAlbumDto(album);
+        User user = userService.getUserById(id);
+        Set<Album> set = new HashSet<>();
+        set.add(album);
+        set.add(album1);
+        User res = userService.saveUserWithAlbum(user, set);
+        return userMapper.UserToUserDto(res);
+    }
     @PostMapping("/saveuser")
     public String saveUser(@RequestBody UserDto userDto) {
         System.out.println(userDto);
-//        User user = userMapper.userDtoToUser(userDto);
-//        userService.saveUser(user);
-        return "save";
+        User user = userMapper.userDtoToUser(userDto);
+        User u = userService.saveUser(user);
+        System.out.println(u);
+
+        return "success";
     }
 
 }

@@ -9,4 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MusicDto {
     private String title ;
+
+    @Override
+    public String toString() {
+        return "MusicDto{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }

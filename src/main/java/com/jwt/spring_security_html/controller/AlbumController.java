@@ -34,6 +34,14 @@ public class AlbumController {
         return albumMapper.mapToAlbumDto(album);
     }
 
+    @GetMapping("/get/{id}")
+    public AlbumDto getById(@PathVariable(name = "id") int id) {
+        System.out.println(id);
+        Album album = albumService.getAlbumById(id);
+        AlbumDto albumDto = albumMapper.mapAlbumToAlbumDto(album);
+        return albumDto;
+    }
+
     @PostMapping("/test")
     public String setAlbum(@RequestBody TestDto albumDto) {
 

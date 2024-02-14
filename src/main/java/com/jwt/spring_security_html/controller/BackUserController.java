@@ -4,22 +4,27 @@ import com.jwt.spring_security_html.entity.BackUser;
 import com.jwt.spring_security_html.service.BackUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-@RestController("/backUsers")
+@RestController
+@RequestMapping("/back")
 public class BackUserController {
 
     private BackUserServiceImpl backUserService;
 
     private PasswordEncoder passwordEncoder;
 
+
     @Autowired
     public void setBackUserService(BackUserServiceImpl backUserService) {
         this.backUserService = backUserService;
+    }
+
+    @GetMapping
+    public String getHello() {
+        return "hello, from back";
     }
 
     @Autowired
@@ -27,12 +32,12 @@ public class BackUserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/backUsers")
+    @PostMapping("/save")
     public BackUser saveUser(@RequestBody BackUser user) {
         String password = user.getPassword();
         String newPass = passwordEncoder.encode(password);
         String username = user.getUsername();
-        Set<String> authorities = user.getRoles();
+        Set<String> authorities = Set.of("SUPER_ADMIN");
 
         BackUser bUser = new BackUser(username, newPass, authorities);
         return backUserService.addBackUser(bUser);
